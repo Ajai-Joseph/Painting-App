@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "site": "devices-sample-123",
+    "site": "aj-painting-app",
     "public": "build/web",
     "ignore": [
       "firebase.json",
