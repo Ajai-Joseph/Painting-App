@@ -256,6 +256,18 @@ class HomeScreen extends GetWidget<PaintingController> {
         //         itemCount: brushWidthList.length),
         //   ),
         // ),
+        InkWell(
+          onTap: () {
+            Navigator.of(context).pop();
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(5),
+            child: Icon(
+              Icons.arrow_back,size: 25,
+              color: Colors.white,
+            ),
+          ),
+        ),
       ],
     ));
   }
