@@ -122,7 +122,7 @@ class _ListScreenState extends State<ListScreen> {
           height: 80,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
-            color: Colors.green,
+            color: Colors.blue,
           ),
           child: Center(
             child: Text(
