@@ -39,10 +39,10 @@ class ListScreen extends StatefulWidget {
 
 class _ListScreenState extends State<ListScreen> {
   List<String> svgPaths = [
-    "assets/avatar.svg",
     "assets/fish.svg",
     "assets/air-fare-svgrepo-com.svg",
-    "assets/s-letter-thumbnail.svg",
+    "assets/tiger.svg",
+    "assets/lion.svg",
   ];
 
   GenerativeModel model = GenerativeModel(
@@ -88,6 +88,9 @@ class _ListScreenState extends State<ListScreen> {
                               arguments: {'path': path, 'isSand': true});
                         },
                         child: Text('Sand Writing')),
+                    SizedBox(
+                      height: 5,
+                    ),
                     ElevatedButton(
                         onPressed: () async {
                           Path path = await getDrawPath(

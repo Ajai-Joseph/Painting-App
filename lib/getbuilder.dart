@@ -56,10 +56,10 @@ class HomeScreen extends GetWidget<PaintingController> {
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight,
     ]);
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
-    double horizontalPadding = (screenWidth - path.getBounds().width) / 2;
-    double verticalPadding = (screenHeight - path.getBounds().height) / 2;
+    // double screenWidth = MediaQuery.of(context).size.width;
+    // double screenHeight = MediaQuery.of(context).size.height;
+    // double horizontalPadding = (screenWidth - path.getBounds().width) / 2;
+    // double verticalPadding = (screenHeight - path.getBounds().height) / 2;
 
     return Scaffold(
         body: Stack(
@@ -89,10 +89,10 @@ class HomeScreen extends GetWidget<PaintingController> {
             }),
 
         Padding(
-          padding: const EdgeInsets.only(left: 40, top: 20, bottom: 20),
+          padding: const EdgeInsets.all(20),
           child: Container(
             padding: EdgeInsets.all(15),
-            width: 130,
+            width: 105,
             decoration: BoxDecoration(
                 color: Colors.grey.withOpacity(0.8),
                 borderRadius: BorderRadius.circular(20)),
@@ -151,7 +151,8 @@ class HomeScreen extends GetWidget<PaintingController> {
         ),
         Padding(
           padding: EdgeInsets.symmetric(
-              horizontal: horizontalPadding, vertical: verticalPadding),
+              horizontal: MediaQuery.of(context).size.width / 3.5,
+              vertical: MediaQuery.of(context).size.height / 7),
           child: GestureDetector(
             behavior: HitTestBehavior.translucent,
             onTapUp: (details) {
@@ -263,7 +264,8 @@ class HomeScreen extends GetWidget<PaintingController> {
           child: Padding(
             padding: const EdgeInsets.all(5),
             child: Icon(
-              Icons.arrow_back,size: 25,
+              Icons.arrow_back,
+              size: 25,
               color: Colors.white,
             ),
           ),
@@ -366,7 +368,7 @@ class DrawingPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     Paint paint = Paint()
       ..color = Colors.white
-      ..strokeWidth = 60
+      ..strokeWidth = 50
       ..strokeCap = StrokeCap.round;
     if (!isSand) {
       canvas.clipPath(path);
