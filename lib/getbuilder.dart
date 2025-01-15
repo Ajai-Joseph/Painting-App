@@ -49,17 +49,16 @@ class HomeScreen extends GetWidget<PaintingController> {
   //final AudioPlayer audioPlayer = AudioPlayer();
 
   Path path = Get.arguments['path'];
-  bool isSand = Get.arguments['isSand'];
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight,
     ]);
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
-    double horizontalPadding = (screenWidth - path.getBounds().width) / 2;
-    double verticalPadding = (screenHeight - path.getBounds().height) / 2;
+    // double screenWidth = MediaQuery.of(context).size.width;
+    // double screenHeight = MediaQuery.of(context).size.height;
+    // double horizontalPadding = (screenWidth - path.getBounds().width) / 2;
+    // double verticalPadding = (screenHeight - path.getBounds().height) / 2;
 
     return Scaffold(
         body: Stack(
@@ -79,20 +78,16 @@ class HomeScreen extends GetWidget<PaintingController> {
                   showOutsideIndicatorNotifier.value = false;
                 },
                 child: Container(
-                  color: showIndicator
-                      ? Colors.red
-                      : isSand
-                          ? Color.fromARGB(211, 218, 80, 30)
-                          : Colors.black,
+                  color: showIndicator ? Colors.red : Colors.black,
                 ),
               );
             }),
 
         Padding(
-          padding: const EdgeInsets.only(left: 40, top: 20, bottom: 20),
+          padding: const EdgeInsets.all(20),
           child: Container(
             padding: EdgeInsets.all(15),
-            width: 130,
+            width: 105,
             decoration: BoxDecoration(
                 color: Colors.grey.withOpacity(0.8),
                 borderRadius: BorderRadius.circular(20)),
@@ -151,7 +146,8 @@ class HomeScreen extends GetWidget<PaintingController> {
         ),
         Padding(
           padding: EdgeInsets.symmetric(
-              horizontal: horizontalPadding, vertical: verticalPadding),
+              horizontal: MediaQuery.of(context).size.width / 3.5,
+              vertical: MediaQuery.of(context).size.height / 7),
           child: GestureDetector(
             behavior: HitTestBehavior.translucent,
             onTapUp: (details) {
@@ -205,12 +201,10 @@ class HomeScreen extends GetWidget<PaintingController> {
             },
             child: GetBuilder<PaintingController>(builder: (_) {
               return CustomPaint(
-                painter: customPathPainter =
-                    CustomPathPainter(path: path, isSand: isSand),
+                painter: customPathPainter = CustomPathPainter(path: path),
                 foregroundPainter: DrawingPainter(
                   pointsMap: controller.pointNotifier,
                   path: path,
-                  isSand: isSand,
                 ),
                 child: Container(),
               );
@@ -256,6 +250,19 @@ class HomeScreen extends GetWidget<PaintingController> {
         //         itemCount: brushWidthList.length),
         //   ),
         // ),
+        InkWell(
+          onTap: () {
+            Navigator.of(context).pop();
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(5),
+            child: Icon(
+              Icons.arrow_back,
+              size: 25,
+              color: Colors.white,
+            ),
+          ),
+        ),
       ],
     ));
   }
@@ -310,9 +317,8 @@ class HomeScreen extends GetWidget<PaintingController> {
 }
 
 class CustomPathPainter extends CustomPainter {
-  const CustomPathPainter({required this.path, required this.isSand});
+  const CustomPathPainter({required this.path});
   final Path path;
-  final bool isSand;
   @override
   bool shouldRepaint(CustomPathPainter oldDelegate) => false;
   @override
@@ -328,8 +334,8 @@ class CustomPathPainter extends CustomPainter {
     canvas.drawPath(
       path,
       Paint()
-        ..color = isSand ? Colors.black : Colors.white
-        ..style = isSand ? PaintingStyle.fill : PaintingStyle.stroke,
+        ..color = Colors.white
+        ..style = PaintingStyle.stroke,
     );
   }
 
@@ -342,23 +348,17 @@ class CustomPathPainter extends CustomPainter {
 class DrawingPainter extends CustomPainter {
   Map<Color, List<Offset>> pointsMap;
   Path path;
-  bool isSand;
   double? width;
-  DrawingPainter(
-      {required this.pointsMap,
-      required this.path,
-      required this.isSand,
-      this.width});
+  DrawingPainter({required this.pointsMap, required this.path, this.width});
 
   @override
   void paint(Canvas canvas, Size size) {
     Paint paint = Paint()
       ..color = Colors.white
-      ..strokeWidth = 60
+      ..strokeWidth = 50
       ..strokeCap = StrokeCap.round;
-    if (!isSand) {
-      canvas.clipPath(path);
-    }
+    canvas.clipPath(path);
+
     List<Color> paintList = pointsMap.keys.toList();
     List<List<Offset>> pointList = pointsMap.values.toList();
 

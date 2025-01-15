@@ -39,10 +39,10 @@ class ListScreen extends StatefulWidget {
 
 class _ListScreenState extends State<ListScreen> {
   List<String> svgPaths = [
-    "assets/avatar.svg",
     "assets/fish.svg",
     "assets/air-fare-svgrepo-com.svg",
-    "assets/s-letter-thumbnail.svg",
+    "assets/tiger.svg",
+    "assets/lion.svg",
   ];
 
   GenerativeModel model = GenerativeModel(
@@ -63,45 +63,20 @@ class _ListScreenState extends State<ListScreen> {
         child: ListView.separated(
           shrinkWrap: true,
           itemBuilder: (context, index) {
-            return Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SvgPicture.asset(
-                  svgPaths[index],
-                  height: 100,
-                  width: 100,
-                ),
-                SizedBox(
-                  width: 20,
-                ),
-                Column(
-                  children: [
-                    ElevatedButton(
-                        onPressed: () async {
-                          log(svgPaths[index]);
-                          Path path = await getDrawPath(
-                              svgPaths[index] == "assets/s-letter-thumbnail.svg"
-                                  ? "assets/s-letter.svg"
-                                  : svgPaths[index]);
+            return InkWell(
+              onTap: () async {
+                Path path = await getDrawPath(
+                    svgPaths[index] == "assets/s-letter-thumbnail.svg"
+                        ? "assets/s-letter.svg"
+                        : svgPaths[index]);
 
-                          Get.toNamed(homeScreen,
-                              arguments: {'path': path, 'isSand': true});
-                        },
-                        child: Text('Sand Writing')),
-                    ElevatedButton(
-                        onPressed: () async {
-                          Path path = await getDrawPath(
-                              svgPaths[index] == "assets/s-letter-thumbnail.svg"
-                                  ? "assets/s-letter.svg"
-                                  : svgPaths[index]);
-
-                          Get.toNamed(homeScreen,
-                              arguments: {'path': path, 'isSand': false});
-                        },
-                        child: Text('Blackboard Writing'))
-                  ],
-                )
-              ],
+                Get.toNamed(homeScreen, arguments: {'path': path});
+              },
+              child: SvgPicture.asset(
+                svgPaths[index],
+                height: 100,
+                width: 100,
+              ),
             );
           },
           separatorBuilder: (context, index) {
@@ -122,7 +97,7 @@ class _ListScreenState extends State<ListScreen> {
           height: 80,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
-            color: Colors.green,
+            color: Colors.blue,
           ),
           child: Center(
             child: Text(
@@ -195,10 +170,8 @@ class _ListScreenState extends State<ListScreen> {
         List<String> paths = extractPathsFromSVG(text);
         String combinedPaths = combinePaths(paths);
         Navigator.of(context).pop();
-        Get.toNamed(homeScreen, arguments: {
-          'path': parseSvgPathData(combinedPaths),
-          'isSand': false
-        });
+        Get.toNamed(homeScreen,
+            arguments: {'path': parseSvgPathData(combinedPaths)});
       } else {
         ScaffoldMessenger.of(context)
           ..removeCurrentSnackBar()
